@@ -49,8 +49,8 @@ class Player():
         #self.surface = pygame.Surface((35, 35))
         #self.surface.fill((128, 65, 0))
         self.icon = pygame.image.load(os.getcwd() + '/sprites/player/playerRun.gif')
-
-        self.wrecked = self.icon.get_rect(center = (20, 360))
+        self.icon = pygame.transform.scale(self.icon, (50, 50))
+        self.wrecked = self.icon.get_rect(center = (20, height - 60))
 
         self.speed = 1.0
         self.name = "Player"
@@ -80,7 +80,7 @@ entities = []
 entities.append(PlayerOne)
 entities.append(platform1)
 
-displayScreen.blit(PlayerOne.icon, (0,0))
+displayScreen.blit(PlayerOne.icon, (20, height - 60))
 while True:
 
     for event in pygame.event.get():
@@ -88,7 +88,7 @@ while True:
             pygame.quit()
             sys.exit(0)
     displayScreen.fill((0,0,0))
-    displayScreen.blit(PlayerOne.icon, (0, 0))
+    displayScreen.blit(PlayerOne.icon, (10, height - 60))
 
     #for entity in entities:
         #displayScreen.blit(entity.surface, entity.wrecked)
