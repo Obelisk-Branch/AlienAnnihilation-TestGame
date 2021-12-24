@@ -2,7 +2,7 @@ import pygame
 import nltk
 import sys
 import os
-
+vec = pygame.math.Vector2
 # Setting up intial values
 width = 1280
 height = 720
@@ -51,11 +51,25 @@ class Player():
         self.icon = pygame.image.load(os.getcwd() + '/sprites/player/playerRun.gif')
         self.icon = pygame.transform.scale(self.icon, (50, 50))
         self.wrecked = self.icon.get_rect(center = (20, height - 60))
-
+        self.position = vec(200, 0)
+        self.accel = vec(0,0)
+        self.velocity = vec(0,0)
         self.speed = 1.0
         self.name = "Player"
         self.lives = 3
         self.gun = False
+
+    def move(self):
+        self.acc = vec(0,0)
+        keysPressed = pygame.key.get_pressed()
+        if keysPressed[K_w]:
+            self.acc.y = 0.5
+        if keys.Pressed[K_d]:
+            self.acc.x = 0.5
+        if keys.Pressed[K_s]:
+            self.acc.y = -0.5
+        if keys.Pressed[K_a]:
+            self.acc.x = -0.5
 
 #Platform class
 class Platform():
@@ -81,7 +95,7 @@ entities.append(PlayerOne)
 entities.append(platform1)
 
 displayScreen.blit(PlayerOne.icon, (20, height - 60))
-while True:
+while (1):
 
     for event in pygame.event.get():
         if event.type == 'QUIT':
@@ -90,8 +104,12 @@ while True:
     displayScreen.fill((0,0,0))
     displayScreen.blit(PlayerOne.icon, (10, height - 60))
 
-    #for entity in entities:
-        #displayScreen.blit(entity.surface, entity.wrecked)
+    for entity in entities:
+        if not (isinstance(entity, Player)):
+            displayScreen.blit(entity.surface, entity.wrecked)
+        else:
+            displayScreen.blit(PlayerOne.icon, PlayerOne.wrecked)
+            PlayerOne.move()
 
     pygame.display.update()
     clock.tick(60)
